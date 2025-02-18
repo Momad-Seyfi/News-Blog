@@ -152,6 +152,11 @@ footer .social-icons a {
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
+.post:hover {
+  transform: translateY(-5px); /* Move the post up slightly */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Add a stronger shadow */
+}
+
 @media screen and (min-width: 700px) {
   .post {
     grid-template-columns: 0.9fr 1.1fr;
