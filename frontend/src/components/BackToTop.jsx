@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaArrowUp } from "react-icons/fa"; // Import the arrow icon from react-icons
+import { FaArrowUp } from "react-icons/fa"; // Ensure react-icons is installed
 
 function BackToTop() {
   const [isVisible, setIsVisible] = useState(false);
@@ -30,7 +30,10 @@ function BackToTop() {
   }, []);
 
   return (
-    <div className={`back-to-top ${isVisible ? "visible" : ""}`} onClick={scrollToTop}>
+    <div
+      className={`back-to-top ${isVisible ? "visible" : ""}`}
+      onClick={scrollToTop}
+    >
       <FaArrowUp className="arrow-icon" />
     </div>
   );
