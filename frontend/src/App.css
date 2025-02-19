@@ -401,3 +401,82 @@ button:hover {
   --card-border: #333;
   --card-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
 }
+
+/* ===== Layout Styles ===== */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the layout fills the viewport height */
+}
+
+.content-container {
+  display: flex;
+  flex: 1; /* Fill remaining space */
+}
+
+.main-content {
+  flex: 1; /* Main content takes up remaining space */
+  padding: 20px;
+}
+
+.sidebar {
+  width: 250px; /* Set the width of the sidebar */
+  background-color: var(--card-bg);
+  border-left: 1px solid var(--card-border);
+  padding: 20px;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.advertisement {
+  text-align: center;
+}
+
+.advertisement h3 {
+  margin-bottom: 10px;
+}
+
+.advertisement p {
+  color: var(--card-text);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none; /* Hide the sidebar on small screens */
+  }
+
+  .main-content {
+    padding: 20px 10px; /* Adjust padding for small screens */
+  }
+}
+
+/* ===== Back to Top Button ===== */
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--button-bg);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  background-color: var(--button-hover-bg);
+}
+
+.arrow-icon {
+  font-size: 1.2rem;
+}
