@@ -42,7 +42,7 @@ function imageHandler() {
         formData.append('file', file);
 
         // آپلود عکس به سرور
-        const response = await fetch('http://localhost:8000/upload', {
+        const response = await fetch('/api/upload', {
             method: 'POST',
             body: formData,
         });
@@ -74,7 +74,7 @@ export default function CreatePost() {
         data.set('file', files[0]);
 
         ev.preventDefault();
-        const response = await fetch('http://localhost:8000/post', {
+        const response = await fetch('/api/post', {
             method: 'POST',
             body: data,
             credentials: 'include',

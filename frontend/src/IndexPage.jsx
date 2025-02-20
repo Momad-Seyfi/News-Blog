@@ -1,29 +1,3 @@
-// import Post from '../Post'
-// import { useEffect ,  useState } from 'react'
-
-
-
-//  function IndexPage() {
-//   const [posts, setPosts] = useState([]);
-
-//   useEffect(() => {
-//     fetch('http://localhost:8000/post').then(Response => {
-//       Response.json().then(posts => {
-//         setPosts(posts);
-//       })
-//     })
-//   }, []);
-//   return (
-//     <>
-//      {posts.length > 0 && posts.map(post => (
-//       <Post {...post} />
-//      ))}
-//     </>
-//   )
-// }
-
-// export default IndexPage
-
 import React, { useEffect, useState } from 'react';
 import Post from '../Post';
 import AuthorsList from './AuthorsList'; // ایمپورت کردن لیست نویسندگان
@@ -34,7 +8,7 @@ function IndexPage() {
   const [error, setError] = useState(null); // مدیریت خطا
 
   useEffect(() => {
-    fetch('http://localhost:8000/post')
+    fetch('/api/post')
       .then(response => {
         if (!response.ok) {
           throw new Error('Error fetching data');

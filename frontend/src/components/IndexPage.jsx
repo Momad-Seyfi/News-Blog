@@ -7,7 +7,7 @@ import { useEffect ,  useState } from 'react'
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8000/post').then(Response => {
+    fetch('/api/post').then(Response => {
       Response.json().then(posts => {
         setPosts(posts);
       })

@@ -51,7 +51,7 @@ mongoose.connect(process.env.MONGOOSE_CONNECT)
   .catch(error => console.error('❌ MongoDB Connection Error:', error));
 
 // **📌 آپلود تصویر برای ReactQuill**
-app.post('/upload', uploadMiddleware.single('file'), (req, res) => {
+app.post('/api/upload', uploadMiddleware.single('file'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ error: 'No file uploaded' });
     }
@@ -59,7 +59,7 @@ app.post('/upload', uploadMiddleware.single('file'), (req, res) => {
 });
 
 // **📌 ثبت‌نام کاربر**
-app.post('/register', async (req, res) => {
+app.post('/api/register', async (req, res) => {
   const { username, password } = req.body;
   try {
     const userDoc = await User.create({
@@ -74,7 +74,7 @@ app.post('/register', async (req, res) => {
 });
 
 // **📌 ورود کاربر**
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
   const { username, password } = req.body;
   const userDoc = await User.findOne({ username });
   if (!userDoc) return res.status(400).json('User not found');
@@ -91,7 +91,7 @@ app.post('/login', async (req, res) => {
 });
 
 // **📌 دریافت پروفایل کاربر**
-app.get('/profile', (req, res) => {
+app.get('/api/profile', (req, res) => {
   const { token } = req.cookies;
   if (!token) return res.status(401).json('Unauthorized');
 
@@ -102,12 +102,12 @@ app.get('/profile', (req, res) => {
 });
 
 // **📌 خروج کاربر**
-app.post('/logout', (req, res) => {
+app.post('/api/logout', (req, res) => {
   res.cookie('token', '').json('ok');
 });
 
 // **📌 ایجاد پست جدید با آپلود عکس در Cloudinary**
-app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
+app.post('/api/post', uploadMiddleware.single('file'), async (req, res) => {
   const { token } = req.cookies;
   if (!token) return res.status(401).json('Unauthorized');
 
@@ -129,7 +129,7 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
 });
 
 // **📌 ویرایش پست**
-app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
+app.put('/api/post', uploadMiddleware.single('file'), async (req, res) => {
   const { token } = req.cookies;
   if (!token) return res.status(401).json('Unauthorized');
 
@@ -158,12 +158,12 @@ app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
 });
 
 // **📌 دریافت تمام پست‌ها**
-app.get('/post', async (req, res) => {
+app.get('/api/post', async (req, res) => {
   res.json(await Post.find().populate('author', ['username']).sort({ createdAt: -1 }).limit(20));
 });
 
 // **📌 دریافت یک پست بر اساس id**
-app.get('/post/:id', async (req, res) => {
+app.get('/api/post/:id', async (req, res) => {
   const { id } = req.params;
   const postDoc = await Post.findById(id).populate('author', ['username']);
   res.json(postDoc);
