@@ -1,4 +1,3 @@
-
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
@@ -9,7 +8,7 @@ import cookieParser from 'cookie-parser';
 import multer from 'multer';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import cloudinaryModule from 'cloudinary';
-
+import path from 'path';
 import User from './models/User.js';  // مدل کاربر
 import Post from './models/Post.js';  // مدل پست
 
@@ -167,6 +166,10 @@ app.get('/api/post/:id', async (req, res) => {
   const { id } = req.params;
   const postDoc = await Post.findById(id).populate('author', ['username']);
   res.json(postDoc);
+});
+
+app.use ( function (req, res) {
+  res.sendFile(path.join(import.meta.dirname, 'public', 'index.html'));
 });
 
 
