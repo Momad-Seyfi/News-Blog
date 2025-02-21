@@ -12,6 +12,11 @@ import path from 'path';
 import User from './models/User.js';  // مدل کاربر
 import Post from './models/Post.js';  // مدل پست
 
+import adminRoutes from "./routes/admin.js";
+import AllowedUser from './models/AllowedUser.js'; 
+
+
+
 dotenv.config();
 const app = express();
 app.use(express.static('public'));
@@ -43,6 +48,9 @@ app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
 app.use(express.json());
 app.use(cookieParser());
 
+app.use("/admin", adminRoutes);
+
+
 
 // اتصال به دیتابیس MongoDB
 mongoose.connect(process.env.MONGOOSE_CONNECT)
@@ -57,17 +65,35 @@ app.post('/api/upload', uploadMiddleware.single('file'), (req, res) => {
     res.json({ url: req.file.path }); // Cloudinary به طور خودکار `req.file.path` را برمی‌گرداند
 });
 
-// **📌 ثبت‌نام کاربر**
+// **📌 ثبت‌نام کاربر با بررسی نام کاربری مجاز**
 app.post('/api/register', async (req, res) => {
   const { username, password } = req.body;
+
   try {
+    console.log("Password Received:", password); // 👀 بررسی مقدار ورودی
+    if (!password) {
+      return res.status(400).json({ message: "Password is required" });
+    }
+
+    const isAllowed = await AllowedUser.findOne({ username });
+    if (!isAllowed) {
+      return res.status(403).json({ message: 'Registration not allowed for this username' });
+    }
+
+    const salt = await bcrypt.genSalt(10);  // ⏳ استفاده از await برای اطمینان
+    console.log("Salt Generated:", salt);  // 🛠 مقدار salt را ببین
+
+    const hashedPassword = await bcrypt.hash(password, salt);  // ⏳ تغییر به async
+    console.log("Hashed Password:", hashedPassword);  // 🛠 مقدار هش‌شده را ببین
+
     const userDoc = await User.create({
       username,
-      password: bcrypt.hashSync(password, salt),
+      password: hashedPassword, // 🛠 هش شده را ذخیره کن
     });
+
     res.json(userDoc);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     res.status(400).json(e);
   }
 });
