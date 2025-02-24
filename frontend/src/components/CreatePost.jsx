@@ -1,9 +1,7 @@
-
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-
 
 const modules = {
     toolbar: {
@@ -66,19 +64,34 @@ export default function CreatePost() {
     const [files, setFiles] = useState('');
     const [redirect, setRedirect] = useState(false);
 
+    const MAX_WORDS = 40; // حداکثر تعداد کلمات مجاز
+
+    function handleSummaryChange(ev) {
+        const inputValue = ev.target.value;
+        const words = inputValue.trim().split(/\s+/); // جدا کردن کلمات با فاصله
+
+        if (words.length > MAX_WORDS) {
+            const trimmedSummary = words.slice(0, MAX_WORDS).join(' '); // نگه داشتن فقط ۴۰ کلمه
+            setSummary(trimmedSummary);
+        } else {
+            setSummary(inputValue);
+        }
+    }
+
     async function createNewPost(ev) {
+        ev.preventDefault();
         const data = new FormData();
         data.set('title', title);
         data.set('summary', summary);
         data.set('content', content);
         data.set('file', files[0]);
 
-        ev.preventDefault();
         const response = await fetch('/api/post', {
             method: 'POST',
             body: data,
             credentials: 'include',
         });
+
         if (response.ok) {
             setRedirect(true);
         }
@@ -91,10 +104,10 @@ export default function CreatePost() {
     return (
         <form onSubmit={createNewPost}>
             <input type="text" placeholder='title' value={title} onChange={ev => setTitle(ev.target.value)} />
-            <input type="summary" placeholder='summary' value={summary} onChange={ev => setSummary(ev.target.value)} />
+            <input type="text" placeholder='summary' value={summary} onChange={handleSummaryChange} />
             <input type="file" onChange={ev => setFiles(ev.target.files)} />
             <ReactQuill value={content} onChange={newValue => setContent(newValue)} modules={modules} formats={formats} />
             <button style={{ marginTop: '5px', backgroundColor: 'green' }}>Create post</button>
         </form>
-    )
+    );
 }
