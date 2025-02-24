@@ -70,6 +70,10 @@ header a.logo {
 header nav {
   display: flex;
   gap: 24px;
+  align-items: center;
+  a {
+    white-space: nowrap;
+  }
 }
 
 /* ===== Footer Styles ===== */
