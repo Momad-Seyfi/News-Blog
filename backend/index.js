@@ -14,7 +14,6 @@ import Post from './models/Post.js';  // مدل پست
 
 dotenv.config();
 const app = express();
-app.use(express.static('public'));
 const secret = process.env.SECRET;
 const salt = bcrypt.genSaltSync(10);
 
