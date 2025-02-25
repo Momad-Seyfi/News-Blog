@@ -31,8 +31,9 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: 'blog_uploads', // اسم پوشه در Cloudinary
-    format: async (req, file) => 'png', // فرمت ذخیره‌سازی
+    format: async (req, file) => 'webp', // ذخیره‌سازی به‌عنوان WebP
     public_id: (req, file) => file.originalname.split('.')[0],
+    transformation: [{ quality: 'auto' }],
   },
 });
 const uploadMiddleware = multer({ storage });
@@ -171,12 +172,8 @@ app.use ( function (req, res) {
   res.sendFile(path.join(import.meta.dirname, 'public', 'index.html'));
 });
 
-
 // **📌 شروع سرور**
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-
-
