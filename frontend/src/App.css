@@ -429,10 +429,36 @@ button:hover {
   border-left: 1px solid var(--card-border);
   padding: 20px;
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+  position: sticky; /* Make the sidebar sticky */
+  top: 60px; /* Distance from the top of the viewport */
+  height: calc(100vh - 40px); /* Fill the height of the viewport */
+  overflow-y: auto; /* Add scroll if content overflows */
+}
+
+/* Advertisement Link Styles */
+.advertisement a {
+  text-decoration: none; /* Remove underline */
+  color: var(--input-focus-border); /* Inherit text color */
+  font-family: poppins;
+  display: block; /* Make the entire ad clickable */
+}
+
+.advertisement a:hover {
+  opacity: 0.8; /* Add hover effect */
 }
 
 .advertisement {
   text-align: center;
+}
+
+.advertisement h1 {
+  font-size: 2rem;
+  font-weight: 1000;
+  margin-bottom: 10px;
+}
+
+.advertisement h2 {
+  margin-bottom: 10px;
 }
 
 .advertisement h3 {
@@ -441,7 +467,25 @@ button:hover {
 
 .advertisement p {
   color: var(--card-text);
+  margin-bottom: 10px;
 }
+
+/* Glowing Text Effect */
+.glow-text {
+  color: #0022ff; /* Change text color */
+  text-shadow: 0 0 5px #ffea96, 0 0 10px #f8eab4, 0 0 20px #ffec9f, 0 0 40px #fff2be;
+  animation: glow .2s infinite alternate; /* Adjust animation duration */
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 5px #00ffd0, 0 0 10px #00f2ff, 0 0 20px #fdeaa0, 0 0 40px #ffcc00;
+  }
+  to {
+    text-shadow: 0 0 10px #3c00ff, 0 0 20px #f9e7a0, 0 0 40px #ffeca2, 0 0 80px #fffdf7;
+  }
+}
+
 
 @media (max-width: 768px) {
   .sidebar {
@@ -485,3 +529,5 @@ button:hover {
 .arrow-icon {
   font-size: 1.2rem;
 }
+
+
