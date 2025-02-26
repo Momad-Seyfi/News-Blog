@@ -9,6 +9,7 @@ import multer from 'multer';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import cloudinaryModule from 'cloudinary';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import User from './models/User.js';  // مدل کاربر
 import Post from './models/Post.js';  // مدل پست
 
@@ -23,8 +24,8 @@ const cloudinary = cloudinaryModule.v2;
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
-  api_secret: process.env.CLOUD_API_SECRET,
-});
+    api_secret: process.env.CLOUD_API_SECRET
+  });
 
 // تنظیم Multer برای آپلود فایل به Cloudinary
 const storage = new CloudinaryStorage({
@@ -167,10 +168,12 @@ app.get('/api/post/:id', async (req, res) => {
   const postDoc = await Post.findById(id).populate('author', ['username']);
   res.json(postDoc);
 });
+// const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-app.use ( function (req, res) {
-  res.sendFile(path.join(import.meta.dirname, 'public', 'index.html'));
-});
+// app.use(function (req, res) {
+//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// });
+
 
 // **📌 شروع سرور**
 const PORT = process.env.PORT || 8000;
